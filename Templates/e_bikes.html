@@ -1,0 +1,92 @@
+{% extends "layout.html" %}
+
+{% block body %}	
+
+	<div class="m-5 pb-5 bg-info">
+		<div class="d-flex justify-content-around align-items-center">
+			<form class="year_dropdown" method = 'POST'>
+				<div class="dropdown" name="year">
+			  		<button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle	="dropdown" aria-haspopup="true" aria-expanded="false">
+			   		 שנה
+			 		</button>
+			 		<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+			    		<a class="dropdown-item" href="{{ url_for('year_filter', year=2018)}}">2018</a>
+			   		 	<a class="dropdown-item" href="{{ url_for('year_filter', year=2019)}}">2019</a>
+			   			<a class="dropdown-item" href="{{ url_for('year_filter', year=2020)}}">2020</a>
+			   			<a class="dropdown-item" href="{{ url_for('year_filter', year=2021)}}">2021</a>
+			   			<a class="dropdown-item" href="{{ url_for('year_filter', year=2022)}}">2022</a>
+			  		</div>
+				</div>
+			</form>
+
+
+			<form class="brand_dropdown" method = 'POST'>
+				<div class="dropdown">
+			  		<button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle	="dropdown" aria-haspopup="true" aria-expanded="false">
+			   		 מותג
+			 		 </button>
+			 		<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+			    		<a class="dropdown-item" href="{{ url_for('brand_filter', brand='Merida')}}">Merida</a>
+			   		 	<a class="dropdown-item" href="{{ url_for('brand_filter', brand='Rocky Mountain')}}">Rocky Mountain</a>
+			   			<a class="dropdown-item" href="{{ url_for('brand_filter', brand='Trek')}}">Trek</a>
+			   			<a class="dropdown-item" href="{{ url_for('brand_filter', brand='Specialized')}}">Specialized</a>
+			   			<a class="dropdown-item" href="{{ url_for('brand_filter', brand='Orbea')}}">Orbea</a>
+			  		</div>
+				</div>
+			</form>
+			
+			<form method="post" action="{{ url_for('price_filter') }}">
+				<input type="text" placeholder="?מאיזה מחיר" name="plow"><br>
+ 				<input type="text" placeholder="?עד איזה מחיר" name="phigh"><br>
+				<input class="" type="submit" value="Submit">
+			</form>
+			 
+			<form>
+				<button type="button" class="btn btn-dark"><a class="text-decoration-none" href="{{ url_for('e_bikes')}}">נקה הכול</a></button>
+				
+			</form>
+		</div>
+	</div>
+
+	<div class="card m-5">
+  		<div class="card-body ">
+    	מראה  תוצאות עבור:
+  		</div>
+  		<div class="text-center">
+  			₪נמוך: {{ upl }}<br>
+  			₪גבוה: {{ uph }}
+  		</div>
+  		<span>You have {{data|length}} products</span> 
+	</div>
+
+	<div class="row justify-content-between">
+		{% for row in data %}
+			<div class="card col-xs-12 col-sm-4 mb-3">
+				<div class="align-items-center">
+					<div class="image" style="margin: 4px;">
+						<img class="img-fluid" alt="Responsive image" src="{{ row['img_link']}}" alt=>
+					</div>
+					
+					<div class="card-body">
+						<p class="card-text" style="margin-bottom: 0px;">{{ row['year'] }}</p>
+						<h5 class="card-title">{{ row['brand'] }}</h5>
+						<p class="card-text">{{ row['model'] }}</p>
+						{% if row['msrp_price'] %}
+							<p class="card-text"> ₪ {{ row['msrp_price'] }} : רגיל</p>
+						{% else %}
+							<p class="card-text">{{ row['msrp_price'] }} </p><br>
+						{% endif %}
+						{% if row['discount_price'] %}
+							<p class="card-text">₪ {{ row['discount_price'] }}</p>
+						{% else %}
+							<p>----------</p>
+						{% endif %}
+						<button type="button" class="btn btn-dark"><a class="text-decoration-none" href="{{ url_for('e_bikes')}}">
+							<a href="{{ row['link'] }}" target="_blank">רכוש</a>
+						</button>
+					</div>
+				</div>					
+			</div>
+		{% endfor %}
+	</div>
+{% endblock  %}
