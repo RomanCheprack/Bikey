@@ -18,7 +18,7 @@ def get_db_connection():
     return conn
 
 @app.route("/", methods=['GET'])
-@app.route("/home")
+@app.route("./home")
 def home():
 
 	return render_template('home.html')
