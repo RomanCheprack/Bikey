@@ -7,9 +7,11 @@ import jinja2
 import sqlite3
 
 app = Flask(__name__)
-# print(results)
+# # print(results)
 # if __name__ == '__main__':
-#     app.run(debug=True)
+#     app.run()
+
+
 def get_db_connection():
     conn = sqlite3.connect('database.db')
     conn.row_factory = sqlite3.Row
@@ -56,3 +58,6 @@ def price_filter():
 	conn.close()
 
 	return render_template('e_bikes.html', data = cursor, upl=upl, uph=uph)
+
+if __name__ == '__main__':
+    app.run()
