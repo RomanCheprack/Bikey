@@ -6,7 +6,7 @@ import numpy as np
 import jinja2
 import sqlite3
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='Templates/')
 # # print(results)
 # if __name__ == '__main__':
 #     app.run()
@@ -18,7 +18,7 @@ def get_db_connection():
     return conn
 
 @app.route("/", methods=['GET'])
-@app.route("./home")
+@app.route("/home")
 def home():
 
 	return render_template('home.html')
