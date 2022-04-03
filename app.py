@@ -6,11 +6,7 @@ import numpy as np
 import jinja2
 import sqlite3
 
-app = Flask(__name__, template_folder='Templates/')
-# # print(results)
-# if __name__ == '__main__':
-#     app.run()
-
+app = Flask(__name__, template_folder='templates/')
 
 def get_db_connection():
     conn = sqlite3.connect('database.db')
@@ -49,10 +45,13 @@ def brand_filter(brand):
 
 @app.route("/price", methods=['GET',"POST"])
 def price_filter():
-	upl = int(request.form.get('plow'))
-	uph = int(request.form.get('phigh'))
-	upl = "{:,}".format(upl)
-	uph = "{:,}".format(uph)
+	try:
+		upl = int(request.form.get('plow'))
+		uph = int(request.form.get('phigh'))
+		upl = "{:,}".format(upl)
+		uph = "{:,}".format(uph)
+	except:
+		return ("Please fill all the fields")
 	conn = get_db_connection()
 	cursor = conn.execute("""SELECT * FROM 'EMtb' WHERE msrp_price >? AND msrp_price <?""", (upl, uph)).fetchall()
 	conn.close()
@@ -60,4 +59,4 @@ def price_filter():
 	return render_template('e_bikes.html', data = cursor, upl=upl, uph=uph)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
