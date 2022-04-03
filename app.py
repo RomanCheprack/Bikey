@@ -6,7 +6,7 @@ import numpy as np
 import jinja2
 import sqlite3
 
-app = Flask(__name__, template_folder='Templates/')
+app = Flask(__name__, template_folder='Templates/', static_folder='Static/')
 
 def get_db_connection():
     conn = sqlite3.connect('database.db')
